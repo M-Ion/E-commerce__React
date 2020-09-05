@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { autth, auth } from '../../firebase/firebase.utils'
+import { auth } from '../../firebase/firebase.utils'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'; // This is a sepcial syntax in React for importing SVG.
 
