@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './App.css';
@@ -44,18 +44,38 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' component={SignInAndSignUpPage} />
+          <Route 
+            exact 
+            path='/signin' 
+            render={() => 
+              this.props.currentUser ? (
+                <Redirect to ='/' />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            } 
+          />
         </Switch>
       </div>
     );
   }
 }
 
+const mapStateProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
+
+/* The connect() function connects a React component to a Redux store.
+It provides its connected component with the pieces of the data it needs from the store, and the functions it can use to dispatch actions to the store.
+The mapStateToProps and mapDispatchToProps deals with your Redux store’s state and dispatch, respectively. state and dispatch will be supplied to your mapStateToProps or mapDispatchToProps functions as the first argument.
+https://react-redux.js.org/api/connect
+*/
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
 export default connect(
-  null,
+  mapStateProps,
   mapDispatchToProps
 )(App);
