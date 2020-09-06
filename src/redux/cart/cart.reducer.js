@@ -1,7 +1,9 @@
-import { CartActionTypes } from './cart.types'
+import { CartActionTypes } from './cart.types';
+import { addItemToCart } from './cart.utils';
 
 const INITIAL_STATE = {
-    hidden: true
+    hidden: true,
+    cartItems: [ ]
 }
 
 const cartReducer = (state = INITIAL_STATE, action) =>{
@@ -10,6 +12,11 @@ const cartReducer = (state = INITIAL_STATE, action) =>{
             return {
                 ...state,
                 hidden: !state.hidden
+            };
+        case CartActionTypes.ADD_ITEM:
+            return {
+                ...state,
+                cartItems: addItemToCart(state.cartItems, action.payload) // We're doing spreading in all of our array values and then any additional values we add at the end will automatically appear in the very end of this array.
             }
         default:
             return state;
