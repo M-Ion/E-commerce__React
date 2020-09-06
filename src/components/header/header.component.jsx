@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
+import { connect } from 'react-redux'; //That lets us modify our component to have access to things related to redux.
 
 import { auth } from '../../firebase/firebase.utils'
 
@@ -20,13 +21,18 @@ const Header = ({ currentUser }) => (
                 CONTACT
             </Link>
             {
-                currentUser ?
-                <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div>
+                currentUser ? (
+                <div className='option' onClick={() => auth.signOut()}>SIGN OUT</div> )
                 :
-                <Link className='option' to="/signin">SIGN IN</Link>
+                ( <Link className='option' to="/signin">SIGN IN</Link>)
             }
         </div>
     </div>
 );
 
-export default Header;
+//This naming can be anything but mapStateToProps() is standart with Redux codebases.
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Header);
