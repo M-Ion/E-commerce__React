@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import { connect } from 'react-redux'; //That lets us modify our component to have access to things related to redux.
+import { createStructuredSelector } from 'reselect';
+
 
 import { auth } from '../../firebase/firebase.utils'
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'; // This is a sepcial syntax in React for importing SVG.
 
@@ -37,9 +41,9 @@ const Header = ({ currentUser, hidden }) => (
 );
 
 //This naming can be anything but mapStateToProps() is standart with Redux codebases.
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({ // state <=> store.getState();
-    currentUser: currentUser,
-    hidden: hidden
+const mapStateToProps = createStructuredSelector({ // createStructuredSelector(), the properties that we want point to the correct selector and then create structure selector will automatically pass are top level state that we get as our mapStateToProps into each subsequebt selector.
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 });
 
 export default connect(mapStateToProps)(Header);
